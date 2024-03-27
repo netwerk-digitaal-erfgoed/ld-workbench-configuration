@@ -14,6 +14,7 @@ stages:
     iterator:
       query: file:///home/enno/projects/ld-workbench-configuration/kb-nbt/iterator-stage-1.rq
       endpoint: https://api.data.netwerkdigitaalerfgoed.nl/datasets/Fedor/Nederlandse-Bibliografie-Totaal-NBT/services/Nederlandse-Bibliografie-Totaal-NBT/sparql
+      delay: "50ms"
       batchSize: 1000
     generator: 
       - query: file:///home/enno/projects/ld-workbench-configuration/kb-nbt/generator-stage-1.rq
