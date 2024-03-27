@@ -6,16 +6,16 @@ description: >
 
 
 # This is optional, by default it will be stored in the data directory of the pipeline using filename 'statements.nt'
-destination: file:///home/enno/projects/ld-workbench-configuration/kb-nbt/kb-nbt-pipeline.nt
+destination: file://../ld-workbench-configuration/kb-nbt/kb-nbt-pipeline.nt
 
 # The individual stages for your pipeline
 stages:
   - name: "Stage 1"
     iterator:
-      query: file:///home/enno/projects/ld-workbench-configuration/kb-nbt/iterator-stage-1.rq
+      query: file://../ld-workbench-configuration/kb-nbt/iterator-stage-1.rq
       endpoint: https://api.data.netwerkdigitaalerfgoed.nl/datasets/Fedor/Nederlandse-Bibliografie-Totaal-NBT/services/Nederlandse-Bibliografie-Totaal-NBT/sparql
       delay: "50ms"
       batchSize: 1000
     generator: 
-      - query: file:///home/enno/projects/ld-workbench-configuration/kb-nbt/generator-stage-1.rq
+      - query: file://../ld-workbench-configuration/kb-nbt/generator-stage-1.rq
         batchSize: 200
