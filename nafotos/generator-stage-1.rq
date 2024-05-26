@@ -87,3 +87,4 @@ CONSTRUCT {
 	OPTIONAL { ?Fotobeschrijving dc:description ?_description . BIND(STRLANG(?_description, "nl") AS ?description) }
 	OPTIONAL { ?Fotobeschrijving nao:toelichting ?_description . BIND(STRLANG(?_description, "nl") AS ?description)  }	
 }
+LIMIT 1000
