@@ -4,7 +4,6 @@ stages:
   - name: "Stage 1"
     iterator:
       query: file://pipelines/nafotos/iterator-stage-1.rq
-      endpoint: https://service.archief.nl/sparql 
-      delay: "1500ms"
-    generator: 
-      -  query: file://pipelines/nafotos/generator-stage-1.rq 
+      endpoint: https://service.archief.nl/sparql
+    generator:
+      -  query: file://pipelines/nafotos/generator-stage-1.rq
