@@ -5,19 +5,19 @@ stages:
       batchSize: 10000
       delay: 500ms
       endpoint: https://api.demo.triplydb.com/datasets/projects/colonial-heritage/sparql
-      query: file://static/ao/events-iterator.rq
+      query: file://events-iterator.rq
     generator:
       - batchSize: 1000
-        query: file://static/ao/events-generator.rq
+        query: file://events-generator.rq
   - name: "Makers"
     iterator:
       batchSize: 10000
       delay: 500ms
       endpoint: https://api.demo.triplydb.com/datasets/projects/colonial-heritage/sparql
-      query: file://static/ao/makers-iterator.rq
+      query: file://makers-iterator.rq
     generator:
       - batchSize: 1000
-        query: file://static/ao/makers-generator.rq
+        query: file://makers-generator.rq
   - name: "ObjectDates"
     iterator:
       batchSize: 10000
@@ -25,52 +25,52 @@ stages:
       #endpoint: https://api.demo.triplydb.com/datasets/projects/colonial-heritage/sparql
       #endpoint: https://api.demo.triplydb.com/datasets/projects/colonial-heritage/services/virtuoso/sparql
       endpoint: https://api.demo.triplydb.com/datasets/projects/colonial-heritage/services/jena/sparql
-      query: file://static/ao/objectDates-iterator.rq
+      query: file://objectDates-iterator.rq
     generator:
       - batchSize: 1000
-        query: file://static/ao/objectDates-generator.rq
+        query: file://objectDates-generator.rq
   - name: "ObjectImages"
     iterator:
       batchSize: 10000
       delay: 500ms
       endpoint: https://api.demo.triplydb.com/datasets/projects/colonial-heritage/sparql
-      query: file://static/ao/objectImages-iterator.rq
+      query: file://objectImages-iterator.rq
     generator:
       - batchSize: 1000
-        query: file://static/ao/objectImages-generator.rq
+        query: file://objectImages-generator.rq
   - name: "ObjectLocations"
     iterator:
       batchSize: 10000
       delay: 500ms
       endpoint: https://api.demo.triplydb.com/datasets/projects/colonial-heritage/sparql
-      query: file://static/ao/objectLocations-iterator.rq
+      query: file://objectLocations-iterator.rq
     generator:
       - batchSize: 1000
-        query: file://static/ao/objectLocations-generator.rq
+        query: file://objectLocations-generator.rq
   - name: "ObjectLocationDates"
     iterator:
       batchSize: 10000
       delay: 500ms
       endpoint: https://api.demo.triplydb.com/datasets/projects/colonial-heritage/sparql
-      query: file://static/ao/objectLocationDates-iterator.rq
+      query: file://objectLocationDates-iterator.rq
     generator:
       - batchSize: 1000
-        query: file://static/ao/objectLocationDates-generator.rq
+        query: file://objectLocationDates-generator.rq
   - name: "Objects"
     iterator:
       batchSize: 10000
       delay: 500ms
       endpoint: https://api.demo.triplydb.com/datasets/projects/colonial-heritage/sparql
-      query: file://static/ao/objects-iterator.rq
+      query: file://objects-iterator.rq
     generator:
       - batchSize: 1000
-        query: file://static/ao/objects-generator.rq
+        query: file://objects-generator.rq
   - name: "Sites"
     iterator:
       batchSize: 10000
       delay: 500ms
       endpoint: https://api.demo.triplydb.com/datasets/projects/colonial-heritage/sparql
-      query: file://static/ao/sites-iterator.rq
+      query: file://sites-iterator.rq
     generator:
       - batchSize: 1000
-        query: file://static/ao/sites-generator.rq
+        query: file://sites-generator.rq
