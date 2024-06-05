@@ -3,9 +3,9 @@ description:  Zet de NA fotocollectie 2.10.62 om naar EDM RDF
 stages:
   - name: "Stage 1"
     iterator:
-      query: file://../ld-workbench-configuration/nafotos-test/iterator-stage-1.rq
-      endpoint: file://../ld-workbench-configuration/nafotos-test/2-10-62ntfoto.nt
+      query: file://iterator-stage-1.rq
+      endpoint: file://2-10-62ntfoto.nt
       #endpoint: https://service.archief.nl/sparql
       delay: "1500ms"
-    generator: 
-      - query: file://../ld-workbench-configuration/nafotos-test/generator-stage-1.rq
+    generator:
+      - query: file://generator-stage-1.rq
