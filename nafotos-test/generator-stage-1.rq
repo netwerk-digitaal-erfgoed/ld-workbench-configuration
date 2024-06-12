@@ -4,9 +4,9 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
 PREFIX edm:     <http://www.europeana.eu/schemas/edm/>
 PREFIX ore:     <http://www.openarchives.org/ore/terms/>
-PREFIX nao:     <https://archief.nl/def/ontologie/> 
-PREFIX foaf:    <http://xmlns.com/foaf/0.1/> 
-PREFIX odrl:    <http://www.w3.org/ns/odrl/2/> 
+PREFIX nao:     <https://archief.nl/def/ontologie/>
+PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+PREFIX odrl:    <http://www.w3.org/ns/odrl/2/>
 PREFIX doap:    <http://usefulinc.com/ns/doap#>
 PREFIX svcs:    <http://rdfs.org/sioc/services#>
 
@@ -14,7 +14,7 @@ CONSTRUCT {
 
 	# uri_cho
 	?Foto a edm:ProvidedCHO ;
-		edm:type ?edm_type ;          
+		edm:type ?edm_type ;
 		dc:creator ?creator ;
 # 		dc:publisher ?publisher ; ???
        dc:description ?description ;
@@ -28,13 +28,13 @@ CONSTRUCT {
         dc:date ?date ;
         dcterms:isPartOf ?is_part_of .
 
-	?this a ore:Aggregation ;
+	$this a ore:Aggregation ;
 		edm:aggregatedCHO ?Foto ;
-		edm:provider ?provider ;          
-		edm:dataProvider ?dataProvider ;  
-#		edm:rights ?rights ;             
-		edm:isShownBy ?isShownBy ;  
-		edm:isShownAt ?isShownAt .  
+		edm:provider ?provider ;
+		edm:dataProvider ?dataProvider ;
+#		edm:rights ?rights ;
+		edm:isShownBy ?isShownBy ;
+		edm:isShownAt ?isShownAt .
 
 	?isShownBy a edm:WebResource ;
 		svcs:has_service ?uri_iiif .
@@ -45,7 +45,7 @@ CONSTRUCT {
 
 } WHERE {
 
-	# ?uri_ore = ?Fotobeschrijving 
+	# ?uri_ore = ?Fotobeschrijving
 	# ?uri_cho = ?Foto
 
 	# Fixed values ...
@@ -56,7 +56,7 @@ CONSTRUCT {
 
 	# iterator levert Fotorecords op
 	$this dc:identifier ?identifier ;
-		  dcterms:creator/skos:prefLabel ?_creator . 
+		  dcterms:creator/skos:prefLabel ?_creator .
 	BIND(IF(LANG(?_creator)="",STRLANG(?_creator, "nl"),?_creator) AS ?creator)
 
 	$this edm:isShownAt ?isShownAt .
@@ -69,44 +69,44 @@ CONSTRUCT {
 	?Foto a nao:Archiefeenheid .
 	?Fotobeschrijving foaf:primaryTopic ?Foto .
 
-	# License "conversion" (via "filter" en bind) 
-	# <https://archief.nl/def/Policy/set_b_rechtenvrij__publiek_domein> > <http://creativecommons.org/publicdomain/mark/1.0/> 
-	?Fotobeschrijving odrl:hasPolicy <https://archief.nl/def/Policy/set_b_rechtenvrij__publiek_domein> . 
+	# License "conversion" (via "filter" en bind)
+	# <https://archief.nl/def/Policy/set_b_rechtenvrij__publiek_domein> > <http://creativecommons.org/publicdomain/mark/1.0/>
+	?Fotobeschrijving odrl:hasPolicy <https://archief.nl/def/Policy/set_b_rechtenvrij__publiek_domein> .
 	BIND(IRI("http://creativecommons.org/publicdomain/mark/1.0/") as ?policy)
 
 
 	OPTIONAL { ?Foto nao:isMateriaaltype ?_material . BIND(IF(LANG(?_material)="",STRLANG(?_material, "nl"),?_material) AS ?material) }
 
-	OPTIONAL { 
-       ?Fotobeschrijving dcterms:subject/skos:prefLabel ?_subject . 
-       BIND(IF(LANG(?_subject)="",STRLANG(?_subject, "nl"),?_subject) AS ?subject) 
+	OPTIONAL {
+       ?Fotobeschrijving dcterms:subject/skos:prefLabel ?_subject .
+       BIND(IF(LANG(?_subject)="",STRLANG(?_subject, "nl"),?_subject) AS ?subject)
     }
-	OPTIONAL { 
-        ?Fotobeschrijving nao:trefwoordAlgemeen ?_subject . 
-        BIND(IF(LANG(?_subject)="",STRLANG(?_subject, "nl"),?_subject) AS ?subject) 
+	OPTIONAL {
+        ?Fotobeschrijving nao:trefwoordAlgemeen ?_subject .
+        BIND(IF(LANG(?_subject)="",STRLANG(?_subject, "nl"),?_subject) AS ?subject)
     }
-	OPTIONAL { 
-        ?Fotobeschrijving nao:trefwoordLocatie ?_spatial . 
-        BIND(IF(LANG(?_spatial)="",STRLANG(?_spatial, "nl"),?_spatial) AS ?spatial) 
+	OPTIONAL {
+        ?Fotobeschrijving nao:trefwoordLocatie ?_spatial .
+        BIND(IF(LANG(?_spatial)="",STRLANG(?_spatial, "nl"),?_spatial) AS ?spatial)
     }
-#	OPTIONAL { 
+#	OPTIONAL {
 #        ?Fotobeschrijving dc:coverage ?temporal .
 #    }
 	OPTIONAL { ?Fotobeschrijving dcterms:date ?date  }
-	OPTIONAL { 
-        ?Fotobeschrijving nao:titelFotocollectie ?_is_part_of . 
-        BIND(IF(LANG(?_is_part_of)="",STRLANG(?_is_part_of, "nl"),?_is_part_of) AS ?is_part_of) 
+	OPTIONAL {
+        ?Fotobeschrijving nao:titelFotocollectie ?_is_part_of .
+        BIND(IF(LANG(?_is_part_of)="",STRLANG(?_is_part_of, "nl"),?_is_part_of) AS ?is_part_of)
     }
-	OPTIONAL { 
-        ?Fotobeschrijving nao:titelFotoserie ?_is_part_of . 
-        BIND(IF(LANG(?_is_part_of)="",STRLANG(?_is_part_of, "nl"),?_is_part_of) AS ?is_part_of)  
+	OPTIONAL {
+        ?Fotobeschrijving nao:titelFotoserie ?_is_part_of .
+        BIND(IF(LANG(?_is_part_of)="",STRLANG(?_is_part_of, "nl"),?_is_part_of) AS ?is_part_of)
     }
-	OPTIONAL { 
-        ?Fotobeschrijving dc:description ?_description . 
-        BIND(IF(LANG(?_description)="",STRLANG(?_description, "nl"),?_description) AS ?description) 
-    }
-	OPTIONAL { 
-        ?Fotobeschrijving nao:toelichting ?_description . 
+	OPTIONAL {
+        ?Fotobeschrijving dc:description ?_description .
         BIND(IF(LANG(?_description)="",STRLANG(?_description, "nl"),?_description) AS ?description)
-    }	
+    }
+	OPTIONAL {
+        ?Fotobeschrijving nao:toelichting ?_description .
+        BIND(IF(LANG(?_description)="",STRLANG(?_description, "nl"),?_description) AS ?description)
+    }
 }
