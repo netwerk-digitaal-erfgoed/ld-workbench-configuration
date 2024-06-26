@@ -1,0 +1,15 @@
+name: NA fotocollectie (via datadumps)
+description: Zet de NA fotocollectie datadumps om naar EDM RDF
+stages:
+  - name: "2.24.10.01"
+    iterator:
+      query: "SELECT * WHERE { ?this <http://www.openarchives.org/ore/terms/isAggregatedBy> <https://archief.nl/doc/2.10.62ntfoto> }"
+      endpoint: file://2-10-62ntfoto.nt
+    generator: 
+      -  query: file://generator.rq 
+  - name: "2.24.26"
+    iterator:
+      query: "SELECT * WHERE { ?this <http://www.openarchives.org/ore/terms/isAggregatedBy> <https://archief.nl/doc/2.24.26ntfoto> }"
+      endpoint: file://2-24-26ntfoto.nt
+    generator: 
+      -  query: file://generator.rq

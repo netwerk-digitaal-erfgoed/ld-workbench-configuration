@@ -1,0 +1,15 @@
+name: NA fotocollectie (via SPARQL)
+description: Zet de NA fotocollectie via SPARQL-endpoint om naar EDM RDF
+stages:
+  - name: "2.24.10.01"
+    iterator:
+      query: "SELECT * WHERE { ?this <http://www.openarchives.org/ore/terms/isAggregatedBy> <https://archief.nl/doc/2.10.62ntfoto> }"
+      endpoint: https://service.archief.nl/sparql
+    generator: 
+      -  query: file://generator.rq 
+  - name: "2.24.26"
+    iterator:
+      query: "SELECT * WHERE { ?this <http://www.openarchives.org/ore/terms/isAggregatedBy> <https://archief.nl/doc/2.24.26ntfoto> }"
+      endpoint: https://service.archief.nl/sparql
+    generator: 
+      -  query: file://generator.rq
