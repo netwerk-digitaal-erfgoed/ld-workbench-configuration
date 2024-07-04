@@ -4,12 +4,24 @@ stages:
   - name: "2.24.10.01"
     iterator:
       query: "SELECT * WHERE { ?this <http://www.openarchives.org/ore/terms/isAggregatedBy> <https://archief.nl/doc/2.10.62ntfoto> }"
-      endpoint: https://service.archief.nl/sparql
+      #endpoint: https://www.goudatijdmachine.nl/sparql/repositories/nafotocollectie
+      endpoint: https://fuseki.coret.org/na-fotocollectie/
     generator: 
       -  query: file://generator.rq 
   - name: "2.24.26"
     iterator:
       query: "SELECT * WHERE { ?this <http://www.openarchives.org/ore/terms/isAggregatedBy> <https://archief.nl/doc/2.24.26ntfoto> }"
-      endpoint: https://service.archief.nl/sparql
+      #endpoint: https://www.goudatijdmachine.nl/sparql/repositories/nafotocollectie
+      endpoint: https://fuseki.coret.org/na-fotocollectie/
     generator: 
       -  query: file://generator.rq
+  - name: "7-000"
+    iterator:
+      query: "SELECT * WHERE { ?this <http://www.openarchives.org/ore/terms/isAggregatedBy> <https://archief.nl/doc/7.000spaondntfoto> }"
+      #endpoint: https://www.goudatijdmachine.nl/sparql/repositories/nafotocollectie
+      #endpoint: https://fuseki.coret.org/na-fotocollectie/
+      endpoint: https://service.archief.nl/sparql
+      batchSize: 50
+    generator: 
+      -  query: file://generator.rq
+         batchSize: 50
