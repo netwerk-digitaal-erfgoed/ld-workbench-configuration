@@ -4,7 +4,7 @@ description: Zet de NA fotocollectie datadumps om naar EDM RDF
 # docker run --rm -v $PWD/data:/data -p 7878:7878 oxigraph/oxigraph --location /data serve --bind 0.0.0.0:7878
 stores:
   - queryUrl: "http://localhost:7878/query"
-    storeUrl: "http://localhost:7878/store"
+    storeUrl: "http://localhost:7878/store?no_transaction&lenient"
 
 stages:
   - name: "2.24.10.01"
