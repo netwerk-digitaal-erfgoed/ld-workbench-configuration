@@ -1,15 +1,33 @@
 name: NA fotocollectie (via datadumps)
 description: Zet de NA fotocollectie datadumps om naar EDM RDF
+
+# docker run --rm -v $PWD/data:/data -p 7878:7878 oxigraph/oxigraph --location /data serve --bind 0.0.0.0:7878
+stores:
+  - queryUrl: "http://localhost:7878/query"
+    storeUrl: "http://localhost:7878/store"
+
 stages:
   - name: "2.24.10.01"
     iterator:
       query: "SELECT * WHERE { ?this <http://www.openarchives.org/ore/terms/isAggregatedBy> <https://archief.nl/doc/2.10.62ntfoto> }"
-      endpoint: file://2-10-62ntfoto.nt
+      # https://nde-europeana.ams3.cdn.digitaloceanspaces.com/2-10-62ntfoto.nt
+      endpoint: file://nt/2-10-62ntfoto.nt
+      importTo: http://localhost:7878/query
     generator: 
       -  query: file://generator.rq 
   - name: "2.24.26"
     iterator:
       query: "SELECT * WHERE { ?this <http://www.openarchives.org/ore/terms/isAggregatedBy> <https://archief.nl/doc/2.24.26ntfoto> }"
-      endpoint: file://2-24-26ntfoto.nt
+      # https://nde-europeana.ams3.cdn.digitaloceanspaces.com/2-24-26ntfoto.nt
+      endpoint: file://nt/2-24-26ntfoto.nt
+      importTo: http://localhost:7878/query
+    generator: 
+      -  query: file://generator.rq
+  - name: "7-000"
+    iterator:
+      query: "SELECT * WHERE { ?this <http://www.openarchives.org/ore/terms/isAggregatedBy> <https://archief.nl/doc/7.000spaondntfoto> }"
+      # https://nde-europeana.ams3.cdn.digitaloceanspaces.com/7-000spaondntfoto.2.nt
+      endpoint: file://nt/7-000spaondntfoto.2.nt
+      importTo: http://localhost:7878/query
     generator: 
       -  query: file://generator.rq
