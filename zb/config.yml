@@ -4,12 +4,16 @@ description: >
   This is an example pipeline. It uses files that are available in this repository 
   and SPARQL endpoints that should work.
 
+destination: file://zeelandcollectie-linked.nt
+
 # The individual stages for your pipeline
 stages:
   - name: "Stage 1"
     iterator:
       query: file://iterator-stage-1.rq
-      endpoint: file://zeeuwsecollectie_stukje.nt
+      endpoint: file://zeeuwsecollectie.nt
+      #delay: "100 ms"
     generator:
       - query: file://generator-stage-1.rq
         endpoint: https://api.data.netwerkdigitaalerfgoed.nl/datasets/Fedor/Nederlandse-Bibliografie-Totaal-NBT/services/Nederlandse-Bibliografie-Totaal-NBT/sparql
+        batchSize: 10

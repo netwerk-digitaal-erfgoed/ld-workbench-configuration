@@ -3,10 +3,13 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix edm:     <http://www.europeana.eu/schemas/edm/>
 prefix dc:      <http://purl.org/dc/elements/1.1/>
 prefix schema: <https://schema.org/>
+prefix nbt: <http://data.bibliotheken.nl/def#>
 
 construct {
-  $this schema:name ?name .
+  ?nbt_id nbt:ppn ?ppn_nbt
 }
 where {
-  $this rdfs:label ?name .
+  ?nbt_id schema:mainEntityOfPage/nbt:ppn ?ppn_nbt
+  BIND(SUBSTR(STR($this),25,9) as ?ppn_zb)
+  FILTER(?ppn_nbt=?ppn_zb)
 }
