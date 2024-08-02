@@ -1,0 +1,14 @@
+prefix schema: <http://schema.org/>
+prefix nbt: <http://data.bibliotheken.nl/def#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+
+construct {
+  $this schema:description "niet in NBT" .
+}
+where {
+  bind(substr(str($this),26,9) as ?ppn_zb)
+  OPTIONAL {
+      ?nbt_id schema:mainEntityOfPage/nbt:ppn ?ppn_nbt
+  }
+  FILTER(!BOUND(?nbt_id))
+}
