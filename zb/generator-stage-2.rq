@@ -8,7 +8,7 @@ construct {
 where {
   bind(substr(str($this),26,9) as ?ppn_zb)
   OPTIONAL {
-      ?nbt_id schema:mainEntityOfPage/nbt:ppn ?ppn_nbt
+      ?nbt_id schema:mainEntityOfPage/nbt:ppn ?ppn_zb
   }
   FILTER(!BOUND(?nbt_id))
 }
