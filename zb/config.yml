@@ -1,16 +1,16 @@
 name: Zeeland Collectie
 description: Add owl:sameAs relations between URIs from the ZB collection to NBT URIs based on the PPN identifier 
 
-destination: file://zb-nbt-links.nt
+destination: file://data/zb-nbt-links.nt
 stages:
   - name: "Stage 1"
     iterator:
       query: file://iterator.rq
-      endpoint: file://zeeuwsecollectie.nt
+      endpoint: file://data/zeeuwsecollectie.nt
     generator:
       - query: file://generator-stage-1.rq
         endpoint: https://data.bibliotheken.nl/sparql
-        batchSize: 3000
+        batchSize: 1000
       - query: file://generator-stage-2.rq
         endpoint: https://data.bibliotheken.nl/sparql
-        batchSize: 3000
+        batchSize: 1000

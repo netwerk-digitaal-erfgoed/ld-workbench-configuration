@@ -4,5 +4,6 @@ prefix schema: <http://schema.org/>
 prefix nbt: <http://data.bibliotheken.nl/def#>
 
 select $this where {
-  ?this schema:isPartOf <https://data.dezb.nl/id/zeelandcollectie> .
+  #?this schema:isPartOf <https://data.dezb.nl/id/zeelandcollectie>
+  $this ?p ?o .
 } limit 1000
