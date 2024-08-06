@@ -89,9 +89,9 @@ CONSTRUCT {
         ?Fotobeschrijving nao:trefwoordLocatie ?_spatial .
         BIND(IF(LANG(?_spatial)="",STRLANG(?_spatial, "nl"),?_spatial) AS ?spatial)
     }
-#	OPTIONAL {
-#        ?Fotobeschrijving dc:coverage ?temporal .
-#    }
+	OPTIONAL {
+        ?Fotobeschrijving dc:coverage ?temporal .
+    }
 	OPTIONAL { ?Fotobeschrijving dcterms:date ?date  }
 	OPTIONAL {
         ?Fotobeschrijving nao:titelFotocollectie ?_is_part_of .

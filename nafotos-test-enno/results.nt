@@ -1,0 +1,25 @@
+<https://service.archief.nl/iip/ee/18/c0/07/22/16/4c/57/8d/85/5c/2b/1c/e0/72/38/5f647807-44a5-497b-9ee0-eef56294672c.jp2/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdfs.org/sioc/services#Service> .
+<https://service.archief.nl/iip/ee/18/c0/07/22/16/4c/57/8d/85/5c/2b/1c/e0/72/38/5f647807-44a5-497b-9ee0-eef56294672c.jp2/> <http://purl.org/dc/terms/conformsTo> <http://iiif.io/api/image> .
+<https://service.archief.nl/iip/ee/18/c0/07/22/16/4c/57/8d/85/5c/2b/1c/e0/72/38/5f647807-44a5-497b-9ee0-eef56294672c.jp2/> <http://usefulinc.com/ns/doap#implements> <http://iiif.io/api/image/2/level1.json> .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.europeana.eu/schemas/edm/ProvidedCHO> .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/elements/1.1/creator> "Onbekend / Publiek Domein of Rechtenvrij"@nl .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/elements/1.1/date> "1942-03-08" .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/elements/1.1/description> "Japanse militair en Indonesische man in een karakteristieke woonkamer van Nederlandse bewoners"@nl .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/elements/1.1/identifier> "0605f6c6-ced2-41f9-f1b6-f77a3b075ec3" .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/elements/1.1/rights> <http://creativecommons.org/publicdomain/mark/1.0/> .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/elements/1.1/subject> "inheemse bevolking"@nl .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/elements/1.1/subject> "Nederlands-Indië"@nl .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/elements/1.1/subject> "militairen"@nl .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/elements/1.1/subject> "interieurs"@nl .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/terms/isPartOf> "NEFIS en CMI"@nl .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/terms/medium> "Negatief (zwart/wit)"@nl .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://purl.org/dc/terms/spatial> "Nederlands-Indië"@nl .
+<https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://www.europeana.eu/schemas/edm/type> "IMAGE" .
+<https://archief.nl/doc/fotorecord/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.openarchives.org/ore/terms/Aggregation> .
+<https://archief.nl/doc/fotorecord/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://www.europeana.eu/schemas/edm/aggregatedCHO> <https://archief.nl/id/foto/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> .
+<https://archief.nl/doc/fotorecord/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://www.europeana.eu/schemas/edm/dataProvider> "Nationaal Archief"@nl .
+<https://archief.nl/doc/fotorecord/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://www.europeana.eu/schemas/edm/isShownAt> <http://hdl.handle.net/10648/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> .
+<https://archief.nl/doc/fotorecord/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://www.europeana.eu/schemas/edm/isShownBy> <https://service.archief.nl/iip/ee/18/c0/07/22/16/4c/57/8d/85/5c/2b/1c/e0/72/38/5f647807-44a5-497b-9ee0-eef56294672c.jp2/full/max/0/default.jpg> .
+<https://archief.nl/doc/fotorecord/0605f6c6-ced2-41f9-f1b6-f77a3b075ec3> <http://www.europeana.eu/schemas/edm/provider> "DC4EU" .
+<https://service.archief.nl/iip/ee/18/c0/07/22/16/4c/57/8d/85/5c/2b/1c/e0/72/38/5f647807-44a5-497b-9ee0-eef56294672c.jp2/full/max/0/default.jpg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.europeana.eu/schemas/edm/WebResource> .
+<https://service.archief.nl/iip/ee/18/c0/07/22/16/4c/57/8d/85/5c/2b/1c/e0/72/38/5f647807-44a5-497b-9ee0-eef56294672c.jp2/full/max/0/default.jpg> <http://rdfs.org/sioc/services#has_service> <https://service.archief.nl/iip/ee/18/c0/07/22/16/4c/57/8d/85/5c/2b/1c/e0/72/38/5f647807-44a5-497b-9ee0-eef56294672c.jp2/> .

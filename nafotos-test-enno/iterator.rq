@@ -1,0 +1,15 @@
+PREFIX ore:     <http://www.openarchives.org/ore/terms/>
+PREFIX nao:     <https://archief.nl/def/ontologie/> 
+PREFIX dc:      <http://purl.org/dc/elements/1.1/>
+
+SELECT * WHERE {
+
+  #?Fotocollectie a ore:Aggregation ;
+  #               nao:isAggregatietype <https://archief.nl/def/Foto> .
+  # The IRI for ore:isAggregatedBy within a nao:Recordaggregatie is incorrect, needs custom replace to fix
+  # <https://archief.nl/doc/Fotocollectie/2.10.62ntfoto> > <https://archief.nl/doc/2.10.62ntfoto> (and shouldn't it be /id/ instead of /doc/???)
+  #BIND( IRI(REPLACE(STR(?Fotocollectie),"/doc/Fotocollectie/","/doc/")) as ?IncorrectFotocollectie)
+  #?Fotorecord ore:isAggregatedBy ?IncorrectFotocollectie ;
+  $this ore:isAggregatedBy <https://archief.nl/doc/2.10.62ntfoto> ;
+      dc:identifier "0605f6c6-ced2-41f9-f1b6-f77a3b075ec3" .
+} 
