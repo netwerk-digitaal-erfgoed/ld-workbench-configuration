@@ -1,0 +1,14 @@
+name: UVA Beeldbank (via dump)
+description: Zet de UVA Beeldbank datadump om naar EDM RDF
+
+destination: file://data/uva-beeldbank-edm.nt
+
+stages:
+  - name: "uva-beeldbank"
+    iterator:
+      query: file://iterator-stage1.rq
+      endpoint: https://api.lod.uba.uva.nl/datasets/UB-UVA/Beeldbank/services/virtuoso/sparql
+    generator: 
+      -  query: file://generator-stage1.rq
+         batchSize: 50
+

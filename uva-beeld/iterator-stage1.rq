@@ -1,0 +1,6 @@
+PREFIX edm:     <http://www.europeana.eu/schemas/edm/>
+PREFIX schema:  <https://schema.org/>
+
+SELECT $this WHERE {
+    $this a schema:Book .
+}

@@ -1,0 +1,103 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dc:      <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX edm:     <http://www.europeana.eu/schemas/edm/>
+PREFIX ore:     <http://www.openarchives.org/ore/terms/>
+PREFIX doap:    <http://usefulinc.com/ns/doap#>
+PREFIX svcs:    <http://rdfs.org/sioc/services#>
+
+
+CONSTRUCT {
+	?identifier a edm:ProvidedCHO ;
+		edm:type ?edmType ;
+		dc:type ?type ;
+		dc:title ?title ;
+		dc:creator ?creator ;
+		dc:contributor ?contributor ;
+        dc:description ?description ;
+        dc:subject ?subject ;
+		dc:rights ?rights ;
+        dc:identifier ?identifier ;
+        dc:date ?date ;
+		dc:language ?language ;
+        dcterms:isFormatOf ?isFormatOf ;
+ 		dc:publisher ?publisher ;
+		dc:source ?source ;
+		dcterms:extent ?extent ;
+		dcterms:medium ?medium ;
+		dcterms:provenance ?provenance .
+
+	?uriAgg a ore:Aggregation ;
+		edm:aggregatedCHO ?identifier ;
+		edm:provider ?provider ;
+		edm:dataProvider ?dataProvider ;
+		edm:rights ?license ;
+		edm:isShownBy ?isShownBy . # or edm:hasView?
+
+	?isShownBy a edm:WebResource ;
+		svcs:has_service ?uri_iiif .
+
+	?uri_iiif a svcs:Service ;
+		dcterms:conformsTo <http://iiif.io/api/image> ;
+		doap:implements <http://iiif.io/api/image/2/level1.json> .
+
+} WHERE {
+
+    # fixed properties for the edm:ProvidedCHO
+    BIND( "TEXT" as ?edmType)	
+
+	# collectie the properties for the edm:ProvidedCHO class
+	# NB: to do:
+	#	- add OPTIONALS
+	# 	- add language tags 
+	$this	
+		dc:creator ?creator ; 
+		dc:title ?title ;
+       	dc:identifier ?identifier .
+	OPTIONAL {
+		?identifier dc:type ?type 
+	}
+	OPTIONAL {
+		?identifier dc:language ?language ;
+	}
+	OPTIONAL {
+		?identifier dc:contributor ?contributor 
+	}
+	OPTIONAL {
+        ?identifier dc:subject ?subject 
+	}
+	OPTIONAL {
+        ?identifier dc:description ?description  
+	}
+	OPTIONAL {
+        ?identifier dcterms:isFormatOf ?isFormatOf   
+	}
+	OPTIONAL {
+        ?identifier dc:publisher ?publisher   
+	}
+	OPTIONAL {
+        ?identifier dc:source ?source   
+	}
+	OPTIONAL {
+        ?identifier dcterms:extent ?extent   
+	}
+	OPTIONAL {
+        ?identifier dcterms:medium ?medium   
+	}
+	OPTIONAL {
+        ?identifier dcterms:provenance ?provenance   
+	}
+
+	# fixed properties for the ore:Aggregation
+	BIND( STRLANG("DC4EU - Dutch Collections for Europe", "en") AS ?provider )
+	BIND( STRLANG("UVA Library","en") as ?dataProvider )
+	BIND( IRI("https://uba.uva.nl/en/support/open-data/licences/licences.html") as ?rights )
+	BIND( URI(CONCAT(STR(?identifier),"#aggregation")) as ?uriAgg)
+
+	# collect the properties for the ore:Aggregation class
+	?this 	edm:isShownBy ?isShownBy .
+	
+	# rework the IIIF URI
+	BIND( IRI(CONCAT(REPLACE(STR(?isShownBy),"full/full/0/default.jpg","info.json"))) as ?uri_iiif)
+} 
