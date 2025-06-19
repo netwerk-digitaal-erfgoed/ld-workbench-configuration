@@ -1,0 +1,33 @@
+# Metadata for your pipeline:
+---
+name: Amateurfilm
+description: Zet de Amateurfilm datadump om naar EDM RDF voor publicatie
+  Europeana Metis Sandbox
+
+# This is optional, by default it will be stored in the data directory of the pipeline using filename 'statements.nt'
+destination: file://../../data/amateurfilm.nt
+
+# The individual stages for your pipeline
+stages:
+  - name: "Stage 1 - Schema2EDM"
+    iterator:
+      query: file://iterator-stage-1.rq
+      # local file takes a very long time (https://github.com/netwerk-digitaal-erfgoed/ld-workbench/issues/117)
+      #endpoint: file://../../data/lod_exporter_amateurfilm_sdo_20240917_dedup.nt
+      # can't use the source triple store due to issue (https://github.com/netwerk-digitaal-erfgoed/dc4eu-projects/issues/1)
+      #endpoint: https://cat.apis.beeldengeluid.nl/sparql
+      # advice: load the datadump into Qlever (https://github.com/ad-freiburg/qlever/)
+      endpoint: https://qlever.coret.org/ldworkbench
+      # can't use a local oxigraph triple store due to issue (https://github.com/netwerk-digitaal-erfgoed/ld-workbench/issues/116)
+      #endpoint: http://0.0.0.0:7878/query
+    generator:
+      # First generator
+      - query: file://generator-stage-1.rq
+  - name: "Stage 2 - GTAA labels"
+    iterator:
+      query: file://iterator-stage-2.rq
+      endpoint: https://qlever.coret.org/ldworkbench
+    generator:
+      # First generator
+      - query: file://generator-stage-2.rq
+        endpoint: https://gtaa.apis.beeldengeluid.nl/sparql
