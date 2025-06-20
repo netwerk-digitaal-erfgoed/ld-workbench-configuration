@@ -27,7 +27,9 @@ stages:
     iterator:
       query: file://iterator-stage-2.rq
       endpoint: https://qlever.coret.org/ldworkbench
+      batchSize: 10000
     generator:
       # First generator
       - query: file://generator-stage-2.rq
         endpoint: https://gtaa.apis.beeldengeluid.nl/sparql
+        batchSize: 10000
