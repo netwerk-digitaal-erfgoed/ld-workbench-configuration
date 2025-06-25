@@ -83,7 +83,8 @@ Note: the port is configured in the Qleverfile, change this if the port is alrea
 
 ### SPARQL constructs
 
-The pipeline configurations are kept in a seperate [LD-Workbench configuration Github repo](https://github.com/netwerk-digitaal-erfgoed/ld-workbench-configuration). The following commands will fetch them and put the amateurfilm files in the ld-workbench directory from the previous step.
+The LD-Workbench pipeline configurations are kept in a seperate [LD-Workbench configuration Github repo](https://github.com/netwerk-digitaal-erfgoed/ld-workbench-configuration). 
+The following commands will fetch them and put the amateurfilm files in the ld-workbench directory from the previous step.
 ```
 git clone https://github.com/netwerk-digitaal-erfgoed/ld-workbench-configuration.git
 cd ld-workbench
