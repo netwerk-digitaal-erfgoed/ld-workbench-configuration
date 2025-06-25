@@ -3,9 +3,9 @@
 ## Setting up your Environment
 
 ### 1 - install LD-Workbench (Docker)
-
+See the [LD-Workbench Github repo](https://github.com/netwerk-digitaal-erfgoed/ld-workbench) for instructions how to install the tool from source. The next steps describe running LD-Workbench via Docker:
 ```
-gh repo clone netwerk-digitaal-erfgoed/ld-workbench
+git clone https://github.com/netwerk-digitaal-erfgoed/ld-workbench.git
 cd ld-workbench
 mkdir pipelines
 mkdir pipelines/configurations
@@ -14,25 +14,27 @@ docker run -it -v $(pwd)/pipelines:/pipelines ghcr.io/netwerk-digitaal-erfgoed/l
 ```
 On first install the Docker image will be fetched and do a first run of the Example pipeline.
 
-Note: be sure to check out the latest version by exucuting `docker pull ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest`
+**Note**: be sure to regularly check out the [latest version](https://github.com/netwerk-digitaal-erfgoed/ld-workbench/pkgs/container/ld-workbench) by exucuting `docker pull ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest`. Just running won't check if it is actually the lastest version, it does show the current version.
 
-### 2 - install Qlever (needed for larger datasets where SPARQL-endpoint is not fully cooperating)
+### 2 - install Qlever 
+The LD-Workbench can run on local N-triple files, for larger datasets a SPARQL-endpoint is preferred. When the SPARQL-endpoint of the dataset is not fully cooperating, just install a local [Qlever](https://github.com/ad-freiburg/qlever/ based SPARQL-endpoint:
 ```
-gh repo clone ad-freiburg/qlever
+git clone https://github.com/ad-freiburg/qlever.git
 cd qlever
 docker build -t qlever .
 docker run qlever
 ```
 The last command shows the qlever help, showing that install via Docker is successfull.
 
-### 3 - install LOD-Aggregator (needed voor testing results in Mets Sandbox)
-
+### 3 - install LOD-Aggregator 
+The Metis Sandbox can't handle N-triples (yet), so a special RDF/XML ZIP file has to be created. Tooling from the [LOD-Aggregator](https://github.com/netwerk-digitaal-erfgoed/lod-aggregator) is used for the conversion:
 ```
 git clone https://github.com/netwerk-digitaal-erfgoed/lod-aggregator.git
 ```
-### 4 - install Apache Jena (needed for conversion via riot)
+### 4 - install Apache Jena
+In order to convert the N-triples to RDF/XML for the EDM XML ZIP file for Metis the Apache tool `riot` is needed. You can install is directly on your system, or use [Jena-Docker](https://github.com/stain/jena-docker):
 ```
-gh repo clone stain/jena-docker
+git clone https://github.com/stain/jena-docker.git
 cd jena-docker
 docker build -t jena jena
 # test install via
@@ -40,72 +42,35 @@ docker run stain/jena riot --help
 ```
 
 ## Data input preperation
-The LD-workbench tool can work on datadumps, but for bigger files, a SPARQL endpoint is advisable.
 
 ### Qlever index + SPARL endpoint
 
 - Make a data directory (eg. within the ld-workbench directory)
 - Change to this directory
-- Put the datadump file (eg. lod_exporter_amateurfilm_sdo_20241014_dedup.nt) here (TBD: get datadump URL via Dataset Register)
+- Put the datadump file (eg. lod_exporter_amateurfilm_sdo_20241014_dedup.nt) here
+  > TBD: get datadump URL via Dataset Register
 - Make a file called Qleverfile with the following contents:
 ```
-# Default Qleverfile, use with https://github.com/ad-freiburg/qlever-control
-#
-# If you have never seen a Qleverfile before, we recommend that you first look
-# at the example Qleverfiles on http://qlever.cs.uni-freiburg.de/qlever-control/
-# src/qlever/Qleverfiles . Or execute `qlever setup-config <dataset>` on the
-# command line to obtain the example Qleverfiles for <dataset>.
-
-# As a minimum, each dataset needs a name. If you want `qlever get-data` to do
-# something meaningful, you need to define GET_DATA_CMD. Otherwise, you need to
-# generate (or download or copy from somewhere) the input files yourself. Each
-# dataset should have a short DESCRIPTION, ideally with a date.
 [data]
 NAME         = amateurfilm
-GET_DATA_CMD =
 DESCRIPTION  = B&G Amateurfilm
-
-# The format for INPUT_FILES should be such that `ls ${INPUT_FILES}` lists all
-# input files. CAT_INPUT_FILES should write a concatenation of all input files
-# to stdout. For example, if your input files are gzipped, you can write `zcat
-# ${INPUT_FILES}`. Regarding SETTINGS_JSON, look at the other Qleverfiles for
-# examples. Several batches of size `num-triples-per-batch` are kept in RAM at
-# the same time; increasing this, increases the memory usage but speeds up the
-# loading process.
 [index]
 INPUT_FILES = *.nt
 CAT_INPUT_FILES = cat ${INPUT_FILES}
 SETTINGS_JSON   = { "num-triples-per-batch": 1000000 }
-
-# The server listens on PORT. If you want to send privileged commands to the
-# server, you need to specify an ACCESS_TOKEN, which you then have to set via a
-# URL parameter `access_token`. It should not be easily guessable, unless you
-# don't mind others to get privileged access to your server.
 [server]
 PORT         = 8890
 ACCESS_TOKEN = _iKdX02Xpo41q
-
-# Use SYSTEM = docker to run QLever inside a docker container; the Docker image
-# will be downloaded automatically. Use SYSTEM = native to use self-compiled
-# binaries `IndexBuilderMain` and `ServerMain` (which should be in you PATH).
 [runtime]
 SYSTEM = native
 IMAGE  = docker.io/adfreiburg/qlever:latest
-
-# UI_PORT specifies the port of the QLever UI web app, when you run `qlever ui`.
-# The UI_CONFIG must be one of the slugs from http://qlever.cs.uni-freiburg.de
-# (see the dropdown menu on the top right, the slug is the last part of the URL).
-# It determines the example queries and which SPARQL queries are launched to
-# obtain suggestions as you type a query.
-[ui]
-UI_PORT   = 8176
-UI_CONFIG = default
 ```
 Now the Qlever index can be made as follows (from the data directory):
 ```
 docker run -it --rm -u 1000:1000  -v $(pwd):/data -w /data qlever -c "qlever index"
 ```
-When successfull, the data directory contains amateurfilm.* files.
+When successfull, the data directory contains amateurfilm.* index files.
+
 To start the Qlever SPARQL-endpoint (from the data directory):
 ```
 docker run -d -u 1000:1000 -p 8890:8890 -v $(pwd):/data -w /data qlever -c "qlever start && tail -f /dev/null"
@@ -118,9 +83,9 @@ Note: the port is configured in the Qleverfile, change this if the port is alrea
 
 ### SPARQL constructs
 
-The pipeline configurations are kept in a seperate Github repo. The following commands will fetch them and put them in the ld-workbench directory from the previous step.
+The pipeline configurations are kept in a seperate [LD-Workbench configuration Github repo](https://github.com/netwerk-digitaal-erfgoed/ld-workbench-configuration). The following commands will fetch them and put the amateurfilm files in the ld-workbench directory from the previous step.
 ```
-gh repo clone netwerk-digitaal-erfgoed/ld-workbench-configuration
+git clone https://github.com/netwerk-digitaal-erfgoed/ld-workbench-configuration.git
 cd ld-workbench
 cp -r ../ld-workbench-configuration/amateurfilm pipelines/configurations
 ```
