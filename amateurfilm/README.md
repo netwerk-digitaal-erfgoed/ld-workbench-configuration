@@ -119,18 +119,18 @@ Finally, run the LOD Aggregator convert script via:
 ```
 bin/convert.sh --data amateurfilm.xml --output amateurfilm.zip
 ```
-The resulting `data/amateurfilm.zip` file can be uploaded to Metis.
+The resulting `data/amateurfilm.zip` file can be uploaded to Metis for testing purposes.
 
 ## Adding a distribution to the dataset description
 
-Europeana can ingest Linked Data which is registered in the NDE Dataset Register. Europeana queries for datasets which have a distribution which conform to the [EDM](http://www.europeana.eu/schemas/edm/) model. The dataset description needs to have RDF like (here shown in Turtle):
+Europeana can ingest Linked Data which is registered in the NDE Dataset Register. Europeana queries for datasets which have a distribution which conform to the [Europeane Data Model (EDM)](http://www.europeana.eu/schemas/edm/). The dataset description needs to have extra RDF like (here shown in Turtle):
 ```
-<amateurfilm-dataset-uri> dcat:distribution [
+<https://data.beeldengeluid.nl/id/dataset/0029> dcat:distribution [
 	a dcat:Distribution ;
 	dct:conformsTo <http://www.europeana.eu/schemas/edm/> ;
 	dct:created "2025-06-17T15:57:43Z"^^xsd:dateTime ;  # change to created data of .nt file
 	dct:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
-	dct:description "Amateurfilm dataset converted to EDM model via the LD-Workbench"
+	dct:description "Amateurfilm dataset converted to EDM via the LD-Workbench"
 	dcat:mediaType <https://www.iana.org/assignments/media-types/application/n-triples> 
 	dcat:byteSize "15698980"^^xsd:nonNegativeInteger ; # optional, change to size of .nt file in bytes
 	dcat:downloadURL <https://..../amateurfilm.nt> . # important, change to URL where the .nt file can be downloaded
