@@ -1,165 +1,104 @@
-# based on https://github.com/netwerk-digitaal-erfgoed/lod-aggregator/blob/master/queries/beng-schema2edm.rq
-
-PREFIX owl:     <http://www.w3.org/2002/07/owl#>
-PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX dc:      <http://purl.org/dc/elements/1.1/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
-PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
-PREFIX void:    <http://rdfs.org/ns/void#>
 PREFIX edm:     <http://www.europeana.eu/schemas/edm/>
 PREFIX ore:     <http://www.openarchives.org/ore/terms/>
 PREFIX sdo:     <https://schema.org/>
+
 CONSTRUCT {
+
     $this a edm:ProvidedCHO ;
-    edm:type ?edm_type ;
-    dc:creator ?creator ;
-    dc:description ?description ;
-    dc:type ?genre ;
-    dc:subject ?subject ;
-    dc:title ?name ;
-    dcterms:alternative ?altName ;
-    dc:publisher ?publisher ;
-    owl:sameAs ?sameAs ;
-    dcterms:spatial ?spatial ;
-    dcterms:temporal ?temporal ;
-    dcterms:medium ?material 	.
+		edm:type ?edm_type ;
+		dc:creator ?creator ;
+		dc:description ?description ;
+		dc:type ?genre ;
+		dc:subject ?subject ;
+		dc:title ?name ;
+		dcterms:alternative ?altName ;
+		dc:publisher ?publisher ;
+		dcterms:spatial ?spatial ;
+		dcterms:temporal ?temporal ;
+		dcterms:medium ?material 	.
+		
+	?uri_ore a ore:Aggregation ;
+		edm:aggregatedCHO $this ;
+		edm:provider ?provider ;
+		edm:dataProvider ?dataProvider ;
+		edm:rights ?license ;
+		edm:isShownBy ?isShownBy ;
+		edm:isShownAt ?isShownAt .
+
+} WHERE {
+		
+	BIND(URI(CONCAT(STR($this),"#agg")) as ?uri_ore)
+
+	BIND(STR('DC4EU') as ?provider)
+	BIND(("VIDEO") as ?edm_type)
+
+	# Mapping sdo:provider naar edm:dataProvider in schema-edm vervangen door constante waarde, 
+	# omdat er nu 4 verschillende waarden/GTAA uri’s voorkomen:
+	# - NEDERLANDS INSTITUUT VOOR BEELD EN GELUID (4328 records)
+	# - NIET VAN TOEPASSING (1272 records)
+	# - NADER TE BEPALEN (424 records)
+	# - NIET BEKEND (58 records)
+	#
+	# Overeenkomstig met andere B&G datasets op Europeana deze constante waarde als string toevoegen: 
+	# Netherlands Institute for Sound & Vision
 	
-?uri_ore a ore:Aggregation ;
-    edm:aggregatedCHO $this ;
-    edm:provider ?provider ;
-    edm:dataProvider ?dataProvider ;
-    edm:rights ?license ;
-    edm:isShownBy ?isShownBy ;
-    edm:isShownAt ?isShownAt .
+	BIND(("Netherlands Institute for Sound & Vision") as ?dataProvider)
 
-#?uri_org a edm:Agent ;
-#    skos:prefLabel ?org_name ;
-#    skos:note ?org_description .
+	# Klopt het dat er momenteel geen Publiek Domein of Creative Commons waarden voorkomen in de dataset?
+	# Er zijn 2 waarden:
+	# no license info (4075 records)
+	# CNE (2013)
 
-#?uri_pers a edm:Agent ;
-#    skos:prefLabel ?pers_name ;
-#    skos:altLabel ?pers_additionalName ;
-#    edm:begin ?pers_birthDate ;
-#    edm:end ?pers_deathDate .
+	# Voor deze twee waarden een constant mapping in de schema-edm mapping opnemen naar http://rightsstatements.org/vocab/InC/1.0/
 
-#    ?uri_pl a edm:Place ;
-#    skos:prefLabel ?pl_name ;
-#    skos:altLabel ?pl_additionalName ;
-#    owl:sameAs ?pl_sameAs .
-}
-WHERE {
-#    {
-        BIND(("VIDEO") as ?edm_type)
-        BIND( URI(CONCAT(STR($this),"#agg")) as ?uri_ore)
-        BIND( STR('DC4EU') as ?provider)
-        OPTIONAL {
-            $this sdo:description ?description 
-        }
-        OPTIONAL {
-            $this sdo:about ?subject 
-        }
-        OPTIONAL {
-            $this sdo:name ?name 
-        }
-        OPTIONAL {
-            $this sdo:publisher ?publisher 
-        }
-        OPTIONAL {
-            # Europeana requires valid URI for edm:isShownAt 
-            $this sdo:url ?url 
-            BIND(IRI(?url) as ?isShownAt)  
-        }
-        OPTIONAL {
-            $this sdo:creator ?creator 
-        }
-        OPTIONAL {
-            $this sdo:genre ?genre .
-            FILTER (lang( ?genre) = "en")
-            BIND(str(?genre) as ?dc_genre)
-        }
-        OPTIONAL {
-            $this sdo:keywords ?subject 
-        }
-        OPTIONAL {
-            $this sdo:license ?cho_license 
-        }
-        OPTIONAL {
-            $this sdo:alternateName ?altName 
-        }
-        OPTIONAL {
-            # use a default the provider mentioned in the dataset description, if any...
-            ?dataset void:rootResource $this .
-            ?dataset sdo:provider ?dataProvider .
-        }
-        OPTIONAL {
-            # use as default the license statement mentioned in the dataset description, if any...
-            ?dataset void:rootResource $this .
-            ?dataset sdo:license ?dataset_license .
-        }
-        OPTIONAL {
-            # use the provider from the resource description
-            $this sdo:provider ?dataProvider 
-        }
-        OPTIONAL {
-            $this sdo:sameAs ?sameAs 
-        }
-        OPTIONAL {
-            $this sdo:spatial ?spatial 
-        }
-        OPTIONAL {
-            $this sdo:temporal ?temporal 
-        }
-        OPTIONAL {
-            $this sdo:material ?material 
-        }
-        OPTIONAL {
-            # Europeana requires valid URI for edm:isShownBy 
-            $this sdo:image ?image
-            BIND(IRI(?image) as ?isShownBy)
-        }
-        BIND(COALESCE(IRI(?cho_license),IRI(?dataset_license),"no license info") as ?license)
-#    }
-#    UNION 
-#    {
-#        ?uri_org a sdo:Organization .
-#        OPTIONAL {
-#            ?uri_org sdo:name ?org_name 
-#        }
-#        OPTIONAL {
-#            ?uri_org sdo:description ?org_desc 
-#        }
-#    }
-#    UNION
-#    {
-#        ?uri_pers a sdo:Person .
-#        OPTIONAL {
-#            ?uri_pers sdo:name ?pers_name 
-#        }
-#        OPTIONAL {
-#            ?uri_pers sdo:additionalName ?pers_additionalName 
-#        }
-#        OPTIONAL {
-#            ?uri_pers sdo:birthDate ?pers_birthDate 
-#        }
-#        OPTIONAL {
-#            ?uri_pers sdo:deathDate ?pers_deathDate 
-#        }
-#        OPTIONAL {
-#            ?uri_pers sdo:description ?pers_desc 
-#        }        
-#    }
-#    UNION
-#    {
-#        ?uri_pl a sdo:Place .
-#        OPTIONAL {
-#            ?uri_pl sdo:name ?pl_name 
-#        }
-#        OPTIONAL {
-#            ?uri_pl sdo:alternateName ?pl_alternateName 
-#        }
-#        OPTIONAL {
-#            ?uri_pl sdo:sameAs ?pl_sameAs 
-#        }        
-#    }
+	OPTIONAL {
+		$this sdo:description ?description 
+	}
+	OPTIONAL {
+	   $this sdo:about ?subject 
+	}
+	OPTIONAL {
+		$this sdo:name ?name 
+	}
+	OPTIONAL {
+		$this sdo:publisher ?publisher 
+	}
+	OPTIONAL {
+		$this sdo:url ?isShownAt
+	}
+	OPTIONAL {
+		$this sdo:creator/sdo:creator ?creator 
+	}
+	OPTIONAL {
+		$this sdo:genre ?genre .
+	}
+	OPTIONAL {
+		$this sdo:keywords ?subject 
+	}
+	OPTIONAL {
+		$this sdo:license ?license 
+	}
+	OPTIONAL {
+		$this sdo:alternateName ?altName 
+	}
+	OPTIONAL {
+		$this sdo:sameAs ?sameAs 
+	}
+	OPTIONAL {
+		$this sdo:spatial ?location 
+	}
+	OPTIONAL {
+		$this sdo:temporal ?temporal 
+	}
+	OPTIONAL {
+		$this sdo:material ?material 
+	}
+	OPTIONAL {
+		# Europeana requires valid URI for edm:isShownBy 
+		$this sdo:image ?image
+		BIND(IRI(?image) as ?isShownBy)
+	}
+
 }
