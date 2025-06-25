@@ -14,7 +14,7 @@ docker run -it -v $(pwd)/pipelines:/pipelines ghcr.io/netwerk-digitaal-erfgoed/l
 ```
 On first install the Docker image will be fetched and do a first run of the Example pipeline.
 
-**Note**: be sure to regularly check out the [latest version](https://github.com/netwerk-digitaal-erfgoed/ld-workbench/pkgs/container/ld-workbench) by exucuting `docker pull ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest`. Just running won't check if it is actually the lastest version, it does show the current version.
+**Note**: be sure to regularly check out the [latest version](https://github.com/netwerk-digitaal-erfgoed/ld-workbench/pkgs/container/ld-workbench) by executing `docker pull ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest`. Just running won't check if it is actually the latest version, it does show the current version.
 
 ### 2 - install Qlever 
 The LD-Workbench can run on local N-triple files, for larger datasets a SPARQL-endpoint is preferred. When the SPARQL-endpoint of the dataset is not fully cooperating, just install a local [Qlever](https://github.com/ad-freiburg/qlever/ based SPARQL-endpoint:
