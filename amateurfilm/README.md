@@ -102,7 +102,7 @@ These files - especially the generator files - will have to be refined to get th
 
 ## Converting the Linked Data to EDM flavour
 
-Running the pipeline:
+Running the pipeline via the ld-workbench directory:
 ```
 docker run -it -v $(pwd)/pipelines:/pipelines ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest \
   --config pipelines/configurations/amateurfilm
