@@ -14,6 +14,8 @@ docker run -it -v $(pwd)/pipelines:/pipelines ghcr.io/netwerk-digitaal-erfgoed/l
 ```
 On first install the Docker image will be fetched and do a first run of the Example pipeline.
 
+Note: be sure to check out the latest version by exucuting `docker pull ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest`
+
 ### 2 - install Qlever (needed for larger datasets where SPARQL-endpoint is not fully cooperating)
 ```
 gh repo clone ad-freiburg/qlever
