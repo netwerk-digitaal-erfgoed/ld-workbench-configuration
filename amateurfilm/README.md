@@ -3,12 +3,9 @@
 ## Setting up your Environment
 
 ### 1 - install LD-Workbench (Docker)
-See the [LD-Workbench Github repo](https://github.com/netwerk-digitaal-erfgoed/ld-workbench) for instructions how to install the tool from source. The next steps describe running LD-Workbench via Docker:
-```
-mkdir pipelines
-docker run -it -v $(pwd)/pipelines:/pipelines ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest
-```
-On first install the Docker image will be fetched and do a first run of the Example pipeline.
+
+Follow the [LD Workbench instructions](https://github.com/netwerk-digitaal-erfgoed/ld-workbench?tab=readme-ov-file#docker)
+on running the tool via Docker. 
 
 **Note**: be sure to regularly check out the [latest version](https://github.com/netwerk-digitaal-erfgoed/ld-workbench/pkgs/container/ld-workbench) by executing `docker pull ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest`. Just running won't check if it is actually the latest version, it does show the current version.
 
