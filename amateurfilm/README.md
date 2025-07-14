@@ -13,14 +13,11 @@ On first install the Docker image will be fetched and do a first run of the Exam
 **Note**: be sure to regularly check out the [latest version](https://github.com/netwerk-digitaal-erfgoed/ld-workbench/pkgs/container/ld-workbench) by executing `docker pull ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest`. Just running won't check if it is actually the latest version, it does show the current version.
 
 ### 2 - install Qlever 
-The LD-Workbench can run on local N-triple files, for larger datasets a SPARQL-endpoint is preferred. When the SPARQL-endpoint of the dataset is not fully cooperating, just install a local [Qlever](https://github.com/ad-freiburg/qlever/ based SPARQL-endpoint:
+The LD-Workbench can run on local N-triple files, for larger datasets a SPARQL-endpoint is preferred. When the SPARQL-endpoint of the dataset is not fully cooperating, just install a local [Qlever](https://github.com/ad-freiburg/qlever/)-based SPARQL-endpoint:
 ```
-git clone https://github.com/ad-freiburg/qlever.git
-cd qlever
-docker build -t qlever .
-docker run qlever
+docker run adfreiburg/qlever
 ```
-The last command shows the qlever help, showing that install via Docker is successfull.
+This shows the QLever help, showing that install via Docker is successful.
 
 ### 3 - install LOD-Aggregator 
 The Metis Sandbox can't handle N-triples (yet), so a special RDF/XML ZIP file has to be created. Tooling from the [LOD-Aggregator](https://github.com/netwerk-digitaal-erfgoed/lod-aggregator) is used for the conversion:
@@ -63,13 +60,13 @@ IMAGE  = docker.io/adfreiburg/qlever:latest
 ```
 Now the Qlever index can be made as follows (from the data directory):
 ```
-docker run -it --rm -u 1000:1000  -v $(pwd):/data -w /data qlever -c "qlever index"
+docker run -it --rm -u 1000:1000  -v $(pwd):/data -w /data adfreiburg/qlever -c "qlever index"
 ```
-When successfull, the data directory contains amateurfilm.* index files.
+When successful, the data directory contains amateurfilm.* index files.
 
 To start the Qlever SPARQL-endpoint (from the data directory):
 ```
-docker run -d -u 1000:1000 -p 8890:8890 -v $(pwd):/data -w /data qlever -c "qlever start && tail -f /dev/null"
+docker run -d -u 1000:1000 -p 8890:8890 -v $(pwd):/data -w /data adfreiburg/qlever -c "qlever start && tail -f /dev/null"
 ```
 You can test the SPARQL-endpoint via:
 ```
