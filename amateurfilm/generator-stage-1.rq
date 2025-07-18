@@ -3,22 +3,38 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX edm:     <http://www.europeana.eu/schemas/edm/>
 PREFIX ore:     <http://www.openarchives.org/ore/terms/>
 PREFIX sdo:     <https://schema.org/>
-
+prefix skos: 	<http://www.w3.org/2004/02/skos/core#>
 CONSTRUCT {
 
     $this a edm:ProvidedCHO ;
 		edm:type ?edm_type ;
 		dc:creator ?creator ;
-		dc:description ?description ;
+		dc:description ?lang_description ;
 		dc:type ?genre ;
 		dc:subject ?subject ;
-		dc:title ?name ;
-		dcterms:alternative ?altName ;
+		dc:subject ?lang_keyword ;
+		dc:title ?lang_name ;
+		dcterms:alternative ?lang_altName ;
 		dc:publisher ?publisher ;
 		dcterms:spatial ?spatial ;
 		dcterms:temporal ?temporal ;
-		dcterms:medium ?material 	.
-		
+		dcterms:medium ?material ;
+		dcterms:issued ?issued ;
+		edm:isPartOf ?isPartOf ;
+		edm:pid ?pid .
+
+	?creator a skos:Concept ;
+		skos:prefLabel ?creator_preflabel .
+
+	?genre a skos:Concept ;
+		skos:prefLabel ?genre_preflabel .
+
+	?spatial a skos:Concept ;
+		skos:prefLabel ?spatial_preflabel .
+
+	?subject a skos:Concept; 
+		skos:prefLabel ?subject_preflabel .
+
 	?uri_ore a ore:Aggregation ;
 		edm:aggregatedCHO $this ;
 		edm:provider ?provider ;
@@ -55,12 +71,15 @@ CONSTRUCT {
 
 	OPTIONAL {
 		$this sdo:description ?description 
+		BIND(STRLANG(STR(?description), "nl") AS ?lang_description) #temp fix
 	}
 	OPTIONAL {
-	   $this sdo:about ?subject 
+	   $this sdo:about ?subject .
+	   ?subject skos:prefLabel ?subject_preflabel
 	}
 	OPTIONAL {
 		$this sdo:name ?name 
+		BIND(STRLANG(STR(?name), "nl") AS ?lang_name) #temp fix
 	}
 	OPTIONAL {
 		$this sdo:publisher ?publisher 
@@ -69,25 +88,30 @@ CONSTRUCT {
 		$this sdo:url ?isShownAt
 	}
 	OPTIONAL {
-		$this sdo:creator/sdo:creator ?creator 
+		$this sdo:creator/sdo:creator ?creator .
+		?creator skos:prefLabel ?creator_preflabel
 	}
 	OPTIONAL {
 		$this sdo:genre ?genre .
+		?genre skos:prefLabel ?genre_preflabel
 	}
 	OPTIONAL {
-		$this sdo:keywords ?subject 
+		$this sdo:keywords ?keyword
+		BIND(STRLANG(?keyword, "nl") AS ?lang_keyword) # temp fix
 	}
 	OPTIONAL {
 		$this sdo:license ?license 
 	}
 	OPTIONAL {
 		$this sdo:alternateName ?altName 
+		BIND(STRLANG(STR(?altName), "nl") AS ?lang_alt_name) # temp fix
 	}
 	OPTIONAL {
 		$this sdo:sameAs ?sameAs 
 	}
 	OPTIONAL {
-		$this sdo:spatial ?location 
+		$this sdo:location ?spatial .
+	   ?spatial skos:prefLabel ?spatial_preflabel
 	}
 	OPTIONAL {
 		$this sdo:temporal ?temporal 
@@ -96,9 +120,18 @@ CONSTRUCT {
 		$this sdo:material ?material 
 	}
 	OPTIONAL {
+		$this sdo:datePublished ?issued
+	}
+	OPTIONAL {
+		$this sdo:partOfSeries ?isPartOf
+	}
+	OPTIONAL {
 		# Europeana requires valid URI for edm:isShownBy 
 		$this sdo:image ?image
 		BIND(IRI(?image) as ?isShownBy)
+	}
+	OPTIONAL {
+		$this sdo:identifier/sdo:value ?pid
 	}
 
 }

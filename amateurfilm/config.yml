@@ -16,15 +16,15 @@ stages:
       # can't use the source triple store due to issue (https://github.com/netwerk-digitaal-erfgoed/dc4eu-projects/issues/1)
       #endpoint: https://cat.apis.beeldengeluid.nl/sparql
       # advice: load the datadump into Qlever, use the IP address of the machine (127.0.0.0 or 0.0.0.0 won't work because of Docker use)
-      endpoint: http://10.10.0.32:8890/
+      endpoint: http://172.20.0.2:8890/
     generator:
       - query: file://generator-stage-1.rq
-  - name: "Stage 2 - GTAA SKOS"
-    iterator:
-      query: file://iterator-stage-2.rq
-      endpoint: https://qlever.coret.org/ldworkbench
-      batchSize: 50000
-    generator:
-      - query: file://generator-stage-2.rq
-        endpoint: https://gtaa.apis.beeldengeluid.nl/sparql
-        batchSize: 50000
+  # - name: "Stage 2 - GTAA SKOS"
+  #   iterator:
+  #     query: file://iterator-stage-2.rq
+  #     endpoint: https://qlever.coret.org/ldworkbench
+  #     batchSize: 50000
+  #   generator:
+  #     - query: file://generator-stage-2.rq
+  #       endpoint: https://gtaa.apis.beeldengeluid.nl/sparql
+  #       batchSize: 50000
