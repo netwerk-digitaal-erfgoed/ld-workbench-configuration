@@ -57,13 +57,13 @@ IMAGE  = docker.io/adfreiburg/qlever:latest
 ```
 Now the Qlever index can be made as follows (from the data directory):
 ```
-docker run -it --rm -u 1000:1000  -v $(pwd):/data -w /data adfreiburg/qlever -c "qlever index"
+docker run -it --rm -u $(id -u):$(id -g) -v $(pwd):/data -w /data adfreiburg/qlever -c "qlever index"
 ```
 When successful, the data directory contains amateurfilm.* index files.
 
 To start the Qlever SPARQL-endpoint (from the data directory):
 ```
-docker run -d -u 1000:1000 -p 8890:8890 -v $(pwd):/data -w /data adfreiburg/qlever -c "qlever start && tail -f /dev/null"
+docker run -d -u $(id -u):$(id -g) -p 8890:8890 -v $(pwd):/data -w /data adfreiburg/qlever -c "qlever start && tail -f /dev/null"
 ```
 You can test the SPARQL-endpoint via:
 ```
@@ -82,11 +82,9 @@ cp -r ../ld-workbench-configuration/amateurfilm pipelines/configurations
 ```
 Be sure to check the `pipelines/configurations/amateurfilm/config.yml` file and make sure the endpoint IP-address/port corresponds with the Qlever install in the step above. Use the IP address of the machine (127.0.0.0 or 0.0.0.0 **won't work** because of Docker use).
 
-The `pipelines/configurations/amateurfilm/config.yml` file also defines the stages - in this case 2: one for the amateurfilm data and one for the GTAA data - each with an iterator (to get URI's) and generator (with the actual SPARQL constructs stored in separate files in the `pipelines/configurations/amateurfilm/` directory:
+The `pipelines/configurations/amateurfilm/config.yml` file also defines the stages - in this case one: for the amateurfilm data - an iterator (to get URI's) and generator (with the actual SPARQL constructs stored in separate files in the `pipelines/configurations/amateurfilm/` directory:
 - `iterator-stage-1.rq`
 - `generator-stage-1.rq`
-- `iterator-stage-2.rq`
-- `generator-stage-2.rq`
 
 These files - especially the generator files - will have to be refined to get the desired output. After each change in these files, rerun the ld-workbench as described in the next section.
 
@@ -94,7 +92,7 @@ These files - especially the generator files - will have to be refined to get th
 
 Running the pipeline via the ld-workbench directory:
 ```
-docker run -it -v $(pwd)/pipelines:/pipelines ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest \
+docker run -it -u $(id -u):$(id -g) -v $(pwd)/pipelines:/pipelines ghcr.io/netwerk-digitaal-erfgoed/ld-workbench:latest \
   --config pipelines/configurations/amateurfilm
 ```
 After completion, you can find the result in the file `pipeline/data/amateurfilm.nt`.
