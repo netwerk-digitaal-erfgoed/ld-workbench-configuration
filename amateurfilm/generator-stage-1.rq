@@ -131,7 +131,7 @@ CONSTRUCT {
 		BIND(IRI(?image) as ?isShownBy)
 	}
 	OPTIONAL {
-		$this sdo:identifier/sdo:value ?pid
+		$this sdo:identifier ?pid
 	}
 
 }
