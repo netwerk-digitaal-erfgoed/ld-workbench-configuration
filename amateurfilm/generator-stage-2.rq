@@ -1,8 +1,0 @@
-# Europeana doens't resolve GTAA terms (yet), so we need to get the labels
-prefix skos: <http://www.w3.org/2004/02/skos/core#>
-construct {
-  $this a skos:Concept; 
-	skos:prefLabel ?label .
-} where {
-  $this skos:prefLabel ?label
-}

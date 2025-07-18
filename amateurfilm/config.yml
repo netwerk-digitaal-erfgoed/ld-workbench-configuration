@@ -19,12 +19,4 @@ stages:
       endpoint: http://172.20.0.2:8890/
     generator:
       - query: file://generator-stage-1.rq
-  # - name: "Stage 2 - GTAA SKOS"
-  #   iterator:
-  #     query: file://iterator-stage-2.rq
-  #     endpoint: https://qlever.coret.org/ldworkbench
-  #     batchSize: 50000
-  #   generator:
-  #     - query: file://generator-stage-2.rq
-  #       endpoint: https://gtaa.apis.beeldengeluid.nl/sparql
-  #       batchSize: 50000
+
