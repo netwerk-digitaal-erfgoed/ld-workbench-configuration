@@ -1,0 +1,17 @@
+# Metadata for your pipeline:
+---
+name: Regionaal Archief Nijmegen (RAN)
+description: https://github.com/netwerk-digitaal-erfgoed/dc4eu-projects/issues/4
+
+# This is optional, by default it will be stored in the data directory of the pipeline using filename 'statements.nt'
+destination: file://data/ran.nt
+
+# The individual stages for your pipeline
+stages:
+  - name: "Stage 1 - Schema2EDM"
+    iterator:
+      query: file://iterator.rq
+      #endpoint: file://../../../data/ran/LOD+Beelddocumenten.nt
+      endpoint: http://10.10.0.34:8898/
+    generator:
+      - query: file://generator.rq
