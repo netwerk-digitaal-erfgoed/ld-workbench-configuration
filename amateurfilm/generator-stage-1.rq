@@ -3,7 +3,7 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX edm:     <http://www.europeana.eu/schemas/edm/>
 PREFIX ore:     <http://www.openarchives.org/ore/terms/>
 PREFIX sdo:     <https://schema.org/>
-
+prefix skos: 	<http://www.w3.org/2004/02/skos/core#>
 CONSTRUCT {
 
     $this a edm:ProvidedCHO ;
@@ -12,18 +12,34 @@ CONSTRUCT {
 		dc:description ?description ;
 		dc:type ?genre ;
 		dc:subject ?subject ;
+		dc:subject ?keyword ;
 		dc:title ?name ;
 		dcterms:alternative ?altName ;
 		dc:publisher ?publisher ;
 		dcterms:spatial ?spatial ;
 		dcterms:temporal ?temporal ;
-		dcterms:medium ?material 	.
-		
+		dcterms:medium ?material ;
+		dcterms:issued ?issued ;
+		edm:isPartOf ?isPartOf ;
+		edm:pid ?pid .
+
+	?creator a skos:Concept ;
+		skos:prefLabel ?creator_preflabel .
+
+	?genre a skos:Concept ;
+		skos:prefLabel ?genre_preflabel .
+
+	?spatial a skos:Concept ;
+		skos:prefLabel ?spatial_preflabel .
+
+	?subject a skos:Concept; 
+		skos:prefLabel ?subject_preflabel .
+
 	?uri_ore a ore:Aggregation ;
 		edm:aggregatedCHO $this ;
 		edm:provider ?provider ;
 		edm:dataProvider ?dataProvider ;
-		edm:rights ?license ;
+		edm:rights ?fixed_license ;
 		edm:isShownBy ?isShownBy ;
 		edm:isShownAt ?isShownAt .
 
@@ -34,30 +50,15 @@ CONSTRUCT {
 	BIND(STR('DC4EU') as ?provider)
 	BIND(("VIDEO") as ?edm_type)
 
-	# Mapping sdo:provider naar edm:dataProvider in schema-edm vervangen door constante waarde, 
-	# omdat er nu 4 verschillende waarden/GTAA uri’s voorkomen:
-	# - NEDERLANDS INSTITUUT VOOR BEELD EN GELUID (4328 records)
-	# - NIET VAN TOEPASSING (1272 records)
-	# - NADER TE BEPALEN (424 records)
-	# - NIET BEKEND (58 records)
-	#
 	# Overeenkomstig met andere B&G datasets op Europeana deze constante waarde als string toevoegen: 
-	# Netherlands Institute for Sound & Vision
-	
 	BIND(("Netherlands Institute for Sound & Vision") as ?dataProvider)
-
-	# Klopt het dat er momenteel geen Publiek Domein of Creative Commons waarden voorkomen in de dataset?
-	# Er zijn 2 waarden:
-	# no license info (4075 records)
-	# CNE (2013)
-
-	# Voor deze twee waarden een constant mapping in de schema-edm mapping opnemen naar http://rightsstatements.org/vocab/InC/1.0/
 
 	OPTIONAL {
 		$this sdo:description ?description 
 	}
 	OPTIONAL {
-	   $this sdo:about ?subject 
+	   $this sdo:about ?subject .
+	   ?subject skos:prefLabel ?subject_preflabel
 	}
 	OPTIONAL {
 		$this sdo:name ?name 
@@ -69,25 +70,29 @@ CONSTRUCT {
 		$this sdo:url ?isShownAt
 	}
 	OPTIONAL {
-		$this sdo:creator/sdo:creator ?creator 
+		$this sdo:creator/sdo:creator ?creator .
+		?creator skos:prefLabel ?creator_preflabel
 	}
 	OPTIONAL {
 		$this sdo:genre ?genre .
+		?genre skos:prefLabel ?genre_preflabel
 	}
 	OPTIONAL {
-		$this sdo:keywords ?subject 
+		$this sdo:keywords ?keyword
 	}
+
 	OPTIONAL {
 		$this sdo:license ?license 
 	}
+	# fix licenses: replace CNE and !bound with InC
+	BIND( COALESCE( IF(BOUND(?license), IF(?license = <http://rightsstatements.org/vocab/CNE/1.0/>, 1/0, ?license), 1/0),<http://rightsstatements.org/vocab/InC/1.0/> ) AS ?fixed_license)
+
 	OPTIONAL {
-		$this sdo:alternateName ?altName 
+		$this sdo:alternativeHeadline ?altName
 	}
 	OPTIONAL {
-		$this sdo:sameAs ?sameAs 
-	}
-	OPTIONAL {
-		$this sdo:spatial ?location 
+		$this sdo:location ?spatial .
+	   ?spatial skos:prefLabel ?spatial_preflabel
 	}
 	OPTIONAL {
 		$this sdo:temporal ?temporal 
@@ -96,9 +101,18 @@ CONSTRUCT {
 		$this sdo:material ?material 
 	}
 	OPTIONAL {
+		$this sdo:datePublished ?issued
+	}
+	OPTIONAL {
+		$this sdo:partOfSeries ?isPartOf
+	}
+	OPTIONAL {
 		# Europeana requires valid URI for edm:isShownBy 
 		$this sdo:image ?image
 		BIND(IRI(?image) as ?isShownBy)
+	}
+	OPTIONAL {
+		$this sdo:identifier ?pid
 	}
 
 }
